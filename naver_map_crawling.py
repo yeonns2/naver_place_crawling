@@ -11,11 +11,10 @@ from urllib.error import HTTPError
 import json
 import pandas as pd
 
-# 네이버 Geocoding 주소 -> 위도, 경도 변환
-
 client_id = "hf5ccfmn6x"
 client_secret = "8bP0prwoBiCj031acT5Z6qWAnANNokIMilIPxV7d"
 
+# 네이버 Geocoding 주소 -> 위도, 경도 변환
 def address_geocoding(address):
     api_url = 'https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query='
     url = api_url + parse.quote(address)
@@ -51,7 +50,7 @@ def address_geocoding(address):
 
 
 driver = webdriver.Chrome(executable_path="./chromedriver")
-driver.get("https://m.map.naver.com/search2/search.naver?query=강아지유치원")
+driver.get("https://m.map.naver.com/search2/search.naver?query=애견유치원")
 time.sleep(4)
 replys =driver.find_elements(By.XPATH, '//*[@id="ct"]/div[2]/ul/li')
 print(len(replys))
@@ -61,7 +60,6 @@ for index, reply in enumerate(replys):
 
         name = reply.find_element(By.CSS_SELECTOR, 'div.item_tit').text
         address =reply.find_element(By.CSS_SELECTOR, 'div.wrap_item').text.split('\n')[1]
-        # thumbnail = reply.find_elements_by_css_selector('a.item_thumb._itemThumb  img._thumbImg')
         latitude, longitude = address_geocoding(address)
         results.append((name, address, latitude, longitude))
 

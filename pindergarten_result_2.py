@@ -1,10 +1,10 @@
 import pandas as pd
 
 
-data_A = pd.read_csv('./results.csv')
+data_A = pd.read_csv('./last.csv')
 df_A = pd.DataFrame(data_A, columns=data_A.keys())
 
-data_B = pd.read_csv('./info_result.csv')
+data_B = pd.read_csv('./image_result.csv')
 df_B = pd.DataFrame(data_B, columns=data_B.keys())
 
 print(df_A)

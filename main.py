@@ -48,34 +48,9 @@ def address_geocoding(address):
     return latitude, longitude
 
 
-# 플레이스 내부 크롤링
-def naver_place_crawling(sid):
-    driver.get("https://m.map.naver.com/search2/site.naver?code="+sid)
-
-    time.sleep(4)
-    reply = driver.find_elements(By.XPATH, '//*[@id="_baseInfoTab"]/div/div')
-
-    results = []
-
-    opening_time = reply.find_element(By.CSS_SELECTOR, 'ul.end_list_basic._dotdotdot._ul_list._no_ellipsis').text
-    access_guide = reply.find_element(By.CSS_SELECTOR, 'ul.end_list_option').text
-    website = reply.find_elements(By.CSS_SELECTOR, 'div > div:nth-child(1) > div > a')[0].text
-    blog_reviews = reply.find_elements(By.XPATH, '//*[@id="_visitsCard"]/div/div/ul/li')
-    print(len(blog_reviews))
-
-    blog_results = []
-    for index, review in enumerate(blog_reviews):
-        # link = review.find_element_by_link_text('a')
-        title = review.find_element(By.CSS_SELECTOR, 'h6').text
-        content = review.find_element(By.CSS_SELECTOR, 'p').text
-        blog_results.append((title, content))
-
-    results.append((opening_time, access_guide, website, blog_results))
-    return results
-
 
 driver = webdriver.Chrome(executable_path="./chromedriver")
-driver.get("https://m.map.naver.com/search2/search.naver?query=강아지유치원")
+driver.get("https://m.map.naver.com/search2/search.naver?query=애견유치원")
 time.sleep(4)
 replys = driver.find_elements(By.XPATH, '//*[@id="ct"]/div[2]/ul/li')
 print(len(replys))
@@ -94,5 +69,5 @@ print(results)
 # 파일 변환 후 저장
 data_frame = pd.DataFrame(results, columns=["sid", "name", "address", "tel", "latitude", "longitude"])
 print(data_frame)
-data_frame.to_csv("results.csv", mode='w')
+data_frame.to_csv("results_2.csv", mode='w')
 driver.close()
